@@ -1,38 +1,32 @@
-import './App.css';
-import Header from './components/Header/Header';
-import LearnReact from './components/LearnReact/LearnReact';
-import { learn, differences } from './data';
-import Button from './components/Button/Button';
 import { useState } from 'react';
+import './App.css';
+import DifferencesSection from './components/DifferencesSection/DifferencesSection';
+import FeedbackSection from './components/FeedbackSection/FeedbackSection';
+import Header from './components/Header/Header';
+import IntroSection from './components/IntroSection/IntroSection';
+import TabsSection from './components/TabsSection/TabsSection';
+import TeachingSection from './components/TeachingSection/TeachingSection';
+import EffectSection from './components/EffectSection/EffectSection';
 
 
 
 export default function App() {
-	const [contentType, setContentType ] = useState();
-  
-	function handleClick(type) {
-		setContentType(type);
-	}
+	const [tab, setTab] = useState('effects');
+
+
 
 	return (
-		<div>
-			<Header></Header>
+		<>
+			<Header/>
 			<main>
-				<section>
-					<h3>Что нужно знать перед тем как учить react JS:</h3>
-					<ul>
-						{learn.map((learn) => (<LearnReact key={learn.title} {...learn}></LearnReact>))}
-					</ul>
-				</section>
-				<section>
-					<h3>Что нам надо знать?</h3>
-					<Button isActive={contentType === 'html'} onClick={() => handleClick('html')}>HTML</Button>
-					<Button isActive={contentType === 'css'} onClick={() => handleClick('css')}>CSS</Button>
-					<Button isActive={contentType === 'javascript'} onClick={() => handleClick('javascript')}>JavaScript</Button>
-					{contentType ? <p>{differences[contentType]}</p> : <p>Click on the button</p> }
-				</section>
+				<IntroSection/>
+				<TabsSection active={tab} onChange={(current) => setTab(current)} />
+				{tab === 'main' && <><TeachingSection/><DifferencesSection/></>}
+				{tab === 'feedback' && <FeedbackSection/>}
+				{tab === 'effects' && <EffectSection/>}
+
 			</main>
-		</div>
+		</>
 	);
 }
 
